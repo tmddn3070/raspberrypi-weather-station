@@ -11,9 +11,9 @@ def getrain():
     io.setmode(io.BCM)
     io.setup(water_sensor, io.IN)    
     if io.input(water_sensor):
-        return "rain"
+        return True
     else:
-        return "no rain"
+        return False
 
 def checkrain():
     rain = getrain()
