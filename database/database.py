@@ -11,22 +11,21 @@ def initdb():
     cursor = db.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS weather (
-            pms_pm1_0 INTEGER NOT NULL,
-            pms_pm2_5 INTEGER NOT NULL,
-            pms_pm10 INTEGER NOT NULL,
-            dht_temp REAL NOT NULL,
-            dht_humidity REAL NOT NULL,
-            lux FIXED NOT NULL,
+            pms_pm1_0 FLOAT NOT NULL,
+            pms_pm2_5 FLOAT NOT NULL,
+            pms_pm10 FLOAT NOT NULL,
+            dht_temp FLOAT NOT NULL,
+            dht_humidity FLOAT NOT NULL,
+            lux FLOAT NOT NULL,
             rain BOOLEAN NOT NULL,
-            cputemp FIXED NOT NULL,
+            cputemp INTEGER NOT NULL,
             timestamp DATETIME NOT NULL,
-            warning NULL, 
-            cridical NULL
+            warning INTEGER NULL, 
+            cridical INTEGER NULL
         )
     """)
     db.commit()
     db.close()
-    return db
 
 def insertdata(pm1,pm25,pm10,dhttemp,dhthumidity,lux,rain,cputemp,timestamp):
     db = sqlite3.connect(database.database['databasename'])
@@ -46,4 +45,3 @@ def insertdata(pm1,pm25,pm10,dhttemp,dhthumidity,lux,rain,cputemp,timestamp):
     """, (pm1,pm25,pm10,dhttemp,dhthumidity,lux,rain,cputemp,timestamp))
     db.commit()
     db.close()
-    return db
