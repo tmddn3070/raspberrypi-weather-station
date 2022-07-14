@@ -6,6 +6,8 @@ authors = ["smoo <tmddn3070@teamtuple.me>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
+schedule
+pms7003
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1"
