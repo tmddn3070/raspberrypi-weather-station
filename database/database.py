@@ -21,7 +21,8 @@ def initdb():
             cputemp FIXED NOT NULL,
             timestamp DATETIME NOT NULL,
             warning NULL, 
-            cridical NULL
+            cridical NULL,
+            log STRING NOT NULL
         )
     """)
     db.commit()
@@ -44,6 +45,18 @@ def insertdata(pm1,pm25,pm10,dhttemp,dhthumidity,lux,rain,cputemp,timestamp):
             timestamp
         ) VALUES (?,?,?,?,?,?,?,?,?)
     """, (pm1,pm25,pm10,dhttemp,dhthumidity,lux,rain,cputemp,timestamp))
+    db.commit()
+    db.close()
+    return db
+
+def insertlog(log):
+    db = sqlite3.connect(database.database['databasename'])
+    cursor = db.cursor()
+    cursor.execute("""
+        INSERT INTO weather (
+            log
+        ) VALUES (?)
+    """, (log,))
     db.commit()
     db.close()
     return db

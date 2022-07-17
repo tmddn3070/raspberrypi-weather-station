@@ -1,14 +1,7 @@
-import os
-import sys
-from tabnanny import check
-import RPi.GPIO
-import Adafruit_DHT
-import sqlite3
 import schedule
 import time
 from datetime import datetime
 #sensor ext module
-from pms7003 import Pms7003Sensor, PmsSensorException
 from config import *
 from module.dht import *
 from module.pi import *

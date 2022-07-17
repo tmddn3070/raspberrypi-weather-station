@@ -1,0 +1,7 @@
+sqlite3
+Adafruit_DHT
+pms7003
+smbus
+requests
+RPi.GPIO
+schedule
