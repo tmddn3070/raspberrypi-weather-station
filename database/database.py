@@ -68,7 +68,7 @@ def insertlogl(log):
     db.commit()
     db.close()
 
-def insertlogh(log)
+def insertlogh(log):
     db = sqlite.connect(database.database['databasename'])
     cursor = db.cursor()
     cursor.execute("""
@@ -80,7 +80,7 @@ def insertlogh(log)
     db.close()
 
 
-def insertlogthingspeak(log)
+def insertlogthingspeak(log):
     db = sqlite3.connect(database.database['databasename'])
     cursor = db.cursor()
     cursor.execute("""
