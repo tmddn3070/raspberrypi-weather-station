@@ -26,8 +26,6 @@ def check_cpu_temp():
     if temp > 70:
         insertlogh("CPU temp cridical!")
         return False
-        time.sleep(12)
-        restart()
     else:
         return True
 

@@ -22,7 +22,10 @@ def thingspeakjob():
     humidity, temperature = getdhtsensor()
     pmsval1, pmsval2, pmsval10 = getpms()
     thing, err = thingspeak(mainconfig['thingspeak-apikey'],temperature,humidity,rainintver(),getlux(),pmsval1,pmsval2,pmsval10,getcputemp())
-    logl(f"{err}")
+    if thing == False:
+        insertlogh(f"{err}")
+    elif thing == True:
+        insertlogl(f"{err}")
     
 def databasejob():
     humidity, temperature = getdhtsensor()
