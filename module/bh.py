@@ -27,6 +27,6 @@ def getlux():
 def checklux():
     lux = getlux()
     if lux > 0:
-        return "LUXOK"
+        return True
     else:
-        return "LUXKO"
+        return False

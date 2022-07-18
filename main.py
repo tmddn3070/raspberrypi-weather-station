@@ -34,46 +34,54 @@ databasename = database.database['databasename']
 
 #check internet conn
 internet = internetcheck(20)
-if internet == "OK":
+if internet == True:
     print("Internet is OK")
-elif internet == "KO":
+elif internet == False:
     print("Internet is KO")
 else:
     print("Unkown Internet Error")
 #check pms
-if pmscheck == "PMSOK":
+if pmscheck == True:
     print("PMS is OK")
-elif pmscheck == "PMSKO":
+elif pmscheck == False:
     print("PMS is KO")
+    sys.exit(0)
 else:
     print("pms unkown error")
 #check dht
 checkdht = checkdht()
-if checkdht == "DHTOK":
+if checkdht == True:
     print("DHT is OK")
-elif checkdht == "DHTKO":
+elif checkdht == False:
     print("DHT is KO")
+    sys.exit(0)
 else:
     print("dht unkown error")
+    sys.exit(0)
 #check lux
-if luxcheck == "LUXOK":
+if luxcheck == True:
     print("LUX is OK")
-elif luxcheck == "LUXKO":
+elif luxcheck == False:
     print("LUX is KO")
+    sys.exit(0)
 else:
     print("lux unkown error")
 #check rain
-if rain == "rainOK":
+if rain == True:
     print("rain is OK")
-elif rain == "rainKO":
+elif rain == False:
     print("rain is KO")
+    sys.exit(0)
 else:
     print("rain unkown error")
 #check cpu
-if cputemp == "CPUTEMPOK":
+if cputemp == True:
     print("CPU is OK")
-elif cputemp == "CPUTEMPKO":
+elif cputemp == False:
     print("CPU is KO")
+    sys.exit(0)
+    time.sleep(10)
+    restart()
 else:
     print("cpu unkown error")
 #check database
@@ -81,13 +89,15 @@ if os.path.isfile(databasename):
     print("database is OK")
 elif not os.path.isfile(databasename):
     print("database is KO")
+    os.touch("weather.db")
 else:
     print("database unkown error")
 #check database
-if internet == "OK" and pmscheck == "PMSOK" and checkdht == "DHTOK" and luxcheck == "LUXOK" and raincheck == "rainOK":
+if internet == True and pmscheck == True and checkdht == True and luxcheck == True and raincheck == True:
     print("all is OK")
 else:
     print("check failed!")
+    
 #print status
 print(f"sensors: temp:{temperature}, humi:{humidity}, cputemp:{cputemp}, lux:{lux}, rain:{rain}, pms:{pmsval}")
 print(f"database:{databasename}")

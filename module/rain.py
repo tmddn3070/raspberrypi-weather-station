@@ -17,7 +17,16 @@ def getrain():
 
 def checkrain():
     rain = getrain()
-    if rain == None:
-        return "rainKO"
+    if not rain == None:
+        return True
     else:
-        return "rainOK"
+        return False 
+
+def rainintver():
+    rain = getrain()
+    if rain == True:
+        return 1
+    elif rain == False:
+        return 0
+    else:
+        return None

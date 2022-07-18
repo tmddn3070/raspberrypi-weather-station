@@ -6,7 +6,8 @@ version: 0.0.1
 
 import os
 import requests
-
+import time
+from database.database import *
 
 def getcputemp():
     cpu_temp = os.popen("vcgencmd measure_temp").readline()
@@ -15,16 +16,20 @@ def getcputemp():
 def internetcheck(timeout):
     try:
         requests.head("http://naver.com/", timeout=timeout)
-        return "OK"
+        return True
     except requests.ConnectionError:
-        return "KO"
+        insertlogh("inet conn error!")
+        return False
 
 def check_cpu_temp():
     temp = getcputemp()
     if temp > 70:
-        return "CPUTEMPKO"
+        insertlogh("CPU temp cridical!")
+        return False
+        time.sleep(12)
+        restart()
     else:
-        return "CPUTEMPOK"
+        return True
 
 
 def aptupdate():

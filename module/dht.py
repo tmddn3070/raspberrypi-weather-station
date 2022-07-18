@@ -14,6 +14,6 @@ def getdhtsensor():
 def checkdht():
     humidity, temperature = getdhtsensor()
     if humidity is not None and temperature is not None:
-        return "DHTOK"
+        return True 
     else:
-        return "DHTKO"
+        return False

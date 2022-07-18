@@ -1,3 +1,9 @@
+"""
+Weather station scheduler module
+created: 2022-07-18
+version: 0.0.2
+"""
+
 import schedule
 import time
 from datetime import datetime
@@ -15,22 +21,25 @@ from module.uploadthingspeak import *
 def thingspeakjob():
     humidity, temperature = getdhtsensor()
     pmsval1, pmsval2, pmsval10 = getpms()
-    thingspeak(mainconfig['thingspeak-apikey'],temperature,humidity,getrain(),getlux(),pmsval1,pmsval2,pmsval10,getcputemp())
+    thing, err = thingspeak(mainconfig['thingspeak-apikey'],temperature,humidity,rainintver(),getlux(),pmsval1,pmsval2,pmsval10,getcputemp())
+    logl(f"{err}")
     
 def databasejob():
     humidity, temperature = getdhtsensor()
     pmsval1, pmsval2, pmsval10 = getpms()
-    insertdata(pmsval1,pmsval2,pmsval10,temperature,humidity,getlux(),getrain(),getcputemp(),datetime.now())
+    insert = insertdata(pmsval1,pmsval2,pmsval10,temperature,humidity,getlux(),getrain(),getcputemp(),datetime.now())
+    insertlogl(f"{insert}") 
 
 def autoupdatejob():
     aptupdate()
 
-def checkcputemp():
+def checkcputempjob():
     checkcputemp()
+
 
 schedule.every(5).minutes.do(thingspeakjob)
 schedule.every(2).minutes.do(databasejob)
-schedule.every().hour.do(checkcputemp)
+schedule.every().hour.do(checkcputempjob)
 schedule.every().wednesday.at("1:15").do(autoupdatejob)
  
 

@@ -19,14 +19,23 @@ def initdb():
             lux FLOAT NOT NULL,
             rain BOOLEAN NOT NULL,
             cputemp INTEGER NOT NULL,
-            timestamp DATETIME NOT NULL,
-            warning NULL, 
-            cridical NULL,
-            log STRING NOT NULL
+            timestamp DATETIME NOT NULL
         )
     """)
     db.commit()
     db.close()
+    
+def initdblog():
+    db = sqlite3.connect(database.database['databasename'])
+    cursor = db.cursor()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS log(
+            logl STRING NULL,
+            logh STRING NULL,
+            logthingspeak NULL
+    """)
+    db.commit()
+    db.close()  
 
 def insertdata(pm1,pm25,pm10,dhttemp,dhthumidity,lux,rain,cputemp,timestamp):
     db = sqlite3.connect(database.database['databasename'])
@@ -48,14 +57,37 @@ def insertdata(pm1,pm25,pm10,dhttemp,dhthumidity,lux,rain,cputemp,timestamp):
     db.close()
     return db
 
-def insertlog(log):
+def insertlogl(log):
     db = sqlite3.connect(database.database['databasename'])
     cursor = db.cursor()
     cursor.execute("""
-        INSERT INTO weather (
-            log
+        INSERT INTO log (
+            logl
         ) VALUES (?)
     """, (log,))
     db.commit()
     db.close()
-    return db
+
+def insertlogh(log)
+    db = sqlite.connect(database.database['databasename'])
+    cursor = db.cursor()
+    cursor.execute("""
+        INSERT INTO log (
+            logh
+        ) VALUES (?)
+    """, (log,))
+    db.commit()
+    db.close()
+
+
+def insertlogthingspeak(log)
+    db = sqlite3.connect(database.database['databasename'])
+    cursor = db.cursor()
+    cursor.execute("""
+        INSERT INTO log (
+            logthingspeak
+        ) VALUES (?)
+    """, (log,))
+    db.commit()
+    db.close()
+

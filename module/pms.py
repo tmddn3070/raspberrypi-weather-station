@@ -11,9 +11,9 @@ def checkpms():
     try:
         pms = Pms7003Sensor('/dev/serial0')
         pms.read()
-        return "PMSOK"
+        return True
     except PmsSensorException:
-        return "PMSKO"
+        return False
 
 def getpms():
     pms = Pms7003Sensor('/dev/serial0')
