@@ -1,7 +1,7 @@
 """
 Weather station scheduler module
-created: 2022-07-18
-version: 0.0.2
+created: 2022-11-24
+version: 0.0.5
 """
 
 import schedule
@@ -13,25 +13,23 @@ from module.dht import *
 from module.pi import *
 from module.pms import *
 from database.database import *
-from module.bh import *
-from module.rain import *
 from module.uploadthingspeak import *
 
 
 def thingspeakjob():
-    humidity, temperature = getdhtsensor()
-    pmsval1, pmsval2, pmsval10 = getpms()
-    thing, err = thingspeak(mainconfig['thingspeak-apikey'],temperature,humidity,rainintver(),getlux(),pmsval1,pmsval2,pmsval10,getcputemp())
-    if thing == False:
-        insertlogh(f"{err}")
-    elif thing == True:
-        insertlogl(f"{err}")
+    dht = getdhtsensor()
+    pms = getpms()
+    try:
+        thing, result, log = thingspeak(mainconfig['thingspeak-apikey'],dht[0],dht[1],pms[0],pms[1],pms[2],getcputemp())
+    if result == False:
+        pass
+    elif result == True:
+        insertlog(log)
     
 def databasejob():
-    humidity, temperature = getdhtsensor()
-    pmsval1, pmsval2, pmsval10 = getpms()
-    insert = insertdata(pmsval1,pmsval2,pmsval10,temperature,humidity,getlux(),getrain(),getcputemp(),datetime.now())
-    insertlogl(f"{insert}") 
+    dht = getdhtsensor()
+    pms = getpms()
+    insertdata(pms[0],pms[1],pms[2],dht[0],dht[1],getcputemp(),datetime.now())
 
 def autoupdatejob():
     aptupdate()
