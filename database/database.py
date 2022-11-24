@@ -1,25 +1,19 @@
-"""
-Weather station database module
-created: 2022-07-12
-version: 0.0.1
-"""
 import sqlite3
+from datetime import datetime
 from config import *
 
-def initdb():
+def setupdb():
     db = sqlite3.connect(database.database['databasename'])
     cursor = db.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS weather (
-            pms_pm1_0 FLOAT NOT NULL,
-            pms_pm2_5 FLOAT NOT NULL,
-            pms_pm10 FLOAT NOT NULL,
-            dht_temp FLOAT NOT NULL,
-            dht_humidity FLOAT NOT NULL,
-            lux FLOAT NOT NULL,
-            rain BOOLEAN NOT NULL,
-            cputemp INTEGER NOT NULL,
-            timestamp DATETIME NOT NULL
+            pms_pm1_0 REAL NOT NULL,
+            pms_pm2_5 REAL NOT NULL,
+            pms_pm10 REAL NOT NULL,
+            dht_temp REAL NOT NULL,
+            dht_humidity REAL NOT NULL,
+            cputemp FLOAT NOT NULL,
+            time DATETIME NOT NULL
         )
     """)
     db.commit()
@@ -30,14 +24,13 @@ def initdblog():
     cursor = db.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS log(
-            logl STRING NULL,
-            logh STRING NULL,
-            logthingspeak NULL
+            log STRING NOT NULL,
+            time DATETIME NOT NULL
     """)
     db.commit()
     db.close()  
 
-def insertdata(pm1,pm25,pm10,dhttemp,dhthumidity,lux,rain,cputemp,timestamp):
+def insertdata(pm1,pm25,pm10,dhttemp,dhthumidity,cputemp,timestamp):
     db = sqlite3.connect(database.database['databasename'])
     cursor = db.cursor()
     cursor.execute("""
@@ -47,47 +40,25 @@ def insertdata(pm1,pm25,pm10,dhttemp,dhthumidity,lux,rain,cputemp,timestamp):
             pms_pm10,
             dht_temp,
             dht_humidity,
-            lux,
-            rain,
             cputemp,
-            timestamp
-        ) VALUES (?,?,?,?,?,?,?,?,?)
-    """, (pm1,pm25,pm10,dhttemp,dhthumidity,lux,rain,cputemp,timestamp))
+            time
+        ) VALUES (?,?,?,?,?,?,?)
+    """, (pm1,pm25,pm10,dhttemp,dhthumidity,cputemp,timestamp,))
     db.commit()
     db.close()
     return db
 
-def insertlogl(log):
+def insertlog(log):
     db = sqlite3.connect(database.database['databasename'])
     cursor = db.cursor()
     cursor.execute("""
         INSERT INTO log (
-            logl
-        ) VALUES (?)
-    """, (log,))
-    db.commit()
-    db.close()
-
-def insertlogh(log):
-    db = sqlite.connect(database.database['databasename'])
-    cursor = db.cursor()
-    cursor.execute("""
-        INSERT INTO log (
-            logh
-        ) VALUES (?)
-    """, (log,))
+            log
+            datetime
+        ) VALUES (?,?)
+    """, (log,datetime.now()))
     db.commit()
     db.close()
 
 
-def insertlogthingspeak(log):
-    db = sqlite3.connect(database.database['databasename'])
-    cursor = db.cursor()
-    cursor.execute("""
-        INSERT INTO log (
-            logthingspeak
-        ) VALUES (?)
-    """, (log,))
-    db.commit()
-    db.close()
 
