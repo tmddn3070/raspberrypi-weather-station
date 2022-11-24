@@ -20,7 +20,7 @@ def thingspeakjob():
     dht = getdhtsensor()
     pms = getpms()
     try:
-        thing, result, log = thingspeak(mainconfig['thingspeak-apikey'],dht[0],dht[1],pms[0],pms[1],pms[2],getcputemp())
+        result, log = thingspeak(mainconfig['thingspeak-apikey'],dht[0],dht[1],pms[0],pms[1],pms[2],getcputemp())
     if result == False:
         pass
     elif result == True:
@@ -38,7 +38,7 @@ def checkcputempjob():
     checkcputemp()
 
 
-schedule.every(5).minutes.do(thingspeakjob)
+schedule.every(1).minutes.do(thingspeakjob)
 schedule.every(2).minutes.do(databasejob)
 schedule.every().hour.do(checkcputempjob)
 schedule.every().wednesday.at("1:15").do(autoupdatejob)
